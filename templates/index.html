@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assignment Submission Portal</title>
+</head>
+<body>
+    <h1>Submit Your Assignment</h1>
+
+    <!-- Validation Errors aur Success Messages yahan show honge -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <p style="color: {% if category == 'error' %}red{% else %}green{% endif %};">
+              <b>{{ message }}</b>
+          </p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Form for students[cite: 1] -->
+    <form method="POST" action="/">
+        <label>Name:</label><br>
+        <input type="text" name="name"><br><br>
+
+        <label>Registration Number:</label><br>
+        <input type="text" name="reg_no"><br><br>
+
+        <label>Assignment Title:</label><br>
+        <input type="text" name="title"><br><br>
+
+        <label>Submission URL:</label><br>
+        <input type="text" name="url" placeholder="https://github.com/..."><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <hr>
+
+    <!-- Valid saved submissions ko display karna (sirf link kafi hai)[cite: 1] -->
+    <h2>Saved Submissions</h2>
+    <ul>
+        {% for sub in submissions %}
+            <li>
+                <strong>{{ sub.name }}</strong> ({{ sub.reg_no }}) - {{ sub.title }} <br>
+                Link: <a href="{{ sub.url }}" target="_blank">{{ sub.url }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
