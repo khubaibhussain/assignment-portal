@@ -73,3 +73,21 @@ jobs:
       - name: Enforce Test Success
         run: |
           pytest
+          - name: Send Email Notification
+      if: always()
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{ secrets.MAIL_USERNAME }}
+        password: ${{ secrets.MAIL_PASSWORD }}
+        subject: "CI/CD Pipeline Report: ${{ job.status }}"
+        to: ${{ secrets.MAIL_USERNAME }}
+        from: GitHub Actions CI
+        body: |
+          Hello Khubaib,
+          
+          GitHub Actions workflow execution completed!
+          Status: ${{ job.status }}
+          Repository: ${{ github.repository }}
+          Commit SHA: ${{ github.sha }}
